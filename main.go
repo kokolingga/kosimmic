@@ -14,11 +14,13 @@ import (
 func main() {
 	l := log.New(os.Stdout, "[product-api] ", log.LstdFlags)
 
+	ph := handlers.NewProducts(l)
 	hh := handlers.NewHello(l)   // hello handler
 	gh := handlers.NewGoodbye(l) // goodbye handler
 
 	sm := http.NewServeMux()
-	sm.Handle("/", hh)
+	sm.Handle("/", ph)
+	sm.Handle("/hello", hh)
 	sm.Handle("/goodbye", gh)
 
 	s := &http.Server{
@@ -30,6 +32,7 @@ func main() {
 	}
 
 	go func() {
+		log.Println("Starting Server")
 		err := s.ListenAndServe()
 		if err != nil {
 			l.Fatal(err)
