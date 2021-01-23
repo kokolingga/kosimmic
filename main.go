@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/kokolingga/kosimmic/handlers"
 )
 
@@ -18,8 +19,20 @@ func main() {
 	hh := handlers.NewHello(l)   // hello handler
 	gh := handlers.NewGoodbye(l) // goodbye handler
 
-	sm := http.NewServeMux()
-	sm.Handle("/", ph)
+	sm := mux.NewRouter()
+	getRouter := sm.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+
+	putRouter := sm.Methods(http.MethodPut).Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", ph.UpdateProducts)
+
+	postRouter := sm.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/", ph.AddProduct)
+
+	// Restful endpoints
+	// sm.Handle("/products", ph)
+
+	// play around endpoints
 	sm.Handle("/hello", hh)
 	sm.Handle("/goodbye", gh)
 

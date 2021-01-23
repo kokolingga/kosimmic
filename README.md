@@ -15,6 +15,6 @@ Based on Nicholas Jackson's [tutorial](https://github.com/nicholasjackson/buildi
 ### (REST endpoints)
 * $ curl localhost:9090
 
-* $ curl localhost:9090 -d '{"name": "Ice Tea", "description": "Indonesian Traditional Ice Tea", "price": 15000, "sku": "tea007"}'
+* $ curl localhost:9090 -X POST -d '{"name": "Ice Tea", "description": "Indonesian Traditional Ice Tea", "price": 15000, "sku": "tea007"}'
 
 * $ curl localhost:9090/1 -X PUT -d '{"name": "New Latte", "description": "New Description", "price": 250, "sku": "newlatte001"}'
